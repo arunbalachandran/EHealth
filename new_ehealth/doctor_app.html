@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <div align="center">
+    <body>
+      <h1>{{doc_name}}, Your Appointments</h1>
+      <table border="4" style="margin-top: 2em; text-align: center; border-style: solid">
+        <tr>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Name of Patient</th>
+        </tr>
+        %for i in doctor_appointment:
+        <tr>
+          <td>{{i[2]}}</td>
+          <td>{{i[3]}}</td>
+          <td>{{i[1]}}</td>
+        </tr>
+        %end
+      </table><br>
+      <a href="/index">Logout</a>
+    </body>
+  </div>
+</html>

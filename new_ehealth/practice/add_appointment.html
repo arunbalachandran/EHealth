@@ -1,0 +1,14 @@
+<html>
+	<body>
+		<div align="center">
+			<form method="post" action="/add_appointment/{{pat_name}}">
+				% for i in doc_list:
+				<input type="radio" style="margin-top: 15px" name="doctor_selected" value="{{i[0]}}" checked>{{i[0]}} - {{i[1]}}
+				%end
+				<p>Input has to be of type -> 2016-04-04T11:30</p>
+				<input type="datetime-local" name="datepicker">
+				<input type="submit" value="Add appointment">
+			</form>
+		</div>
+	</body>
+</html>

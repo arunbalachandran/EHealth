@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <div align="center">
+    <body>
+      <h1>Welcome, {{patient_name}}</h1>
+      <h2>Your Appointments</h2>
+      <table border="4" style="margin-top: 2em; text-align: center">
+        <tr>
+          <th>Name of Doctor</th>
+          <th>Date</th>
+          <th>Time</th>
+        </tr>
+        %for appointment in patient_appointment:
+          <tr>
+   	        <td>{{appointment[0]}}</td>
+	        <td>{{appointment[2]}}</td>
+  	        <td>{{appointment[3]}}</td>
+          </tr>
+        %end
+      </table><br>
+      <form action="/add_appoint/{{patient_name}}" method="get">
+  	    <input type="submit" value="Add Appointments">
+        <a href="/index">Logout</a>
+      </form>
+    </body>
+  </div>
+</html>

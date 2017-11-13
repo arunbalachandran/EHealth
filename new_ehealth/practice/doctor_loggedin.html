@@ -1,0 +1,23 @@
+<html>
+	<body>
+		<div align="center">
+			<h1>Welcome {{doc_name}}, your appointments</h1>
+			<!-- list of appointments table -->
+			<table style="border: 5px solid">
+				<tr>
+					<th>Patient</th>
+					<th>Date</th>
+					<th>Time</th>
+				</tr>
+				%for i in apts:
+				<tr>
+					<th>{{i[1]}}</th>
+					<th>{{i[2]}}</th>
+					<th>{{i[3]}}</th>
+				</tr>
+				%end
+			</table>
+			<a href="/index">Log Out</a>
+		</div>
+	</body>
+</html>

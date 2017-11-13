@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <a href="/index" style="float: right; margin-top: 50px;" type="new">Logout</a>
+    <br><a href="#">Profile</a>
+    <div align="center">
+    <h1>Your Appointments</h1>
+      <table border="4" style="margin-top: 2em; text-align: center; border-style: solid">
+        <tr>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Name of Patient</th>
+        </tr>
+        %for i in doctor_appointment:
+        <tr>
+          <td>{{i['date']}}</td>
+          <td>{{i['time']}}</td>
+          <td>{{i['patient']}}</td>
+        </tr>
+        %end
+      </table>
+      <p><p>
+    </div>
+  </body>
+</html>
