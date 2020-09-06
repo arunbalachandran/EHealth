@@ -1,16 +1,33 @@
 # install bottle to run the program -> pip install bottle
 # run the program by calling python backend.py and then go to the url
 # 127.0.0.1:8080/index on your browser
-import json, sqlite3
+import json, psycopg2
+import os
 
 # create databases in memory itself
-conn = sqlite3.connect(':memory:')
+# no fancy checks, since we will be moving to a Spring based solution
+DB_USERNAME = os.environ.get('DB_USERNAME', '')
+DB_PASSWORD = os.environ.get('DB_PASSWORD', '')
+DB_HOST = os.environ.get('DB_HOST', '192.168.99.101')
+# the DB port uses the kubernetes node port default
+DB_PORT = os.environ.get('DB_PORT', 32432)
+DB_NAME = os.environ.get('DB_NAME', 'ehealth')
+
+if (DB_USERNAME == '' or DB_PASSWORD == ''):
+    print('Database username / password not defined. Aborting startup...')
+    exit(1)
+
+conn = psycopg2.connect(user = DB_USERNAME,
+                        password = DB_PASSWORD,
+                        host = DB_HOST,
+                        port = DB_PORT,
+                        database = DB_NAME)
 
 # c is the cursor where you run queries
 c = conn.cursor()
-c.execute('''CREATE TABLE login_doc (uname varchar primary key, email varchar, pwd varchar, dep varchar)''')
-c.execute('''CREATE TABLE login_pat (uname varchar primary key, age varchar, email varchar, pwd varchar)''')
-c.execute('''CREATE TABLE appointments (uname_doc, uname_pat, dt varchar, time varchar, FOREIGN KEY(uname_doc) REFERENCES login_doc(uname), FOREIGN KEY(uname_pat) REFERENCES login_pat(uname))''')
+c.execute('''CREATE TABLE IF NOT EXISTS login_doc (uname varchar primary key, email varchar, pwd varchar, dep varchar);''')
+c.execute('''CREATE TABLE IF NOT EXISTS login_pat (uname varchar primary key, age varchar, email varchar, pwd varchar);''')
+c.execute('''CREATE TABLE IF NOT EXISTS appointments (uname_doc varchar, uname_pat varchar, dt varchar, time varchar, FOREIGN KEY(uname_doc) REFERENCES login_doc(uname), FOREIGN KEY(uname_pat) REFERENCES login_pat(uname));''')
 conn.commit()
 
 from bottle import request, template, route, run, static_file
