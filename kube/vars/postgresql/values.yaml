@@ -1,0 +1,4 @@
+## PostgreSQL service configuration overrides
+service:
+  type: NodePort
+  nodePort: 32432

@@ -13,6 +13,12 @@ cd $ROOT_PATH
 
 declare -a SERVICES=("postgresql")
 
+# optional values override
+OPTIONAL_VALUES_OVERRIDE=""
+
 for i in "${SERVICES[@]}"; do
-  helm secrets upgrade -i $i $SERVICES_PATH/$i -f $VARS_PATH/$i/secrets.yaml
+  if [[ -f $VARS_PATH/$i/values.yaml ]]; then
+    OPTIONAL_VALUES_OVERRIDE="-f $VARS_PATH/$i/values.yaml"
+  fi
+  helm secrets upgrade -i $i $SERVICES_PATH/$i $OPTIONAL_VALUES_OVERRIDE -f $VARS_PATH/$i/secrets.yaml
 done
