@@ -123,4 +123,4 @@ def appointment_page(appointee):
 # change localhost to your systems ip address, which will enable you
 # to run the app from other pc's, with your pc being the server and the
 # other pc being the client
-run(host='localhost', port=8020)
+run(host='localhost', port=5000)
