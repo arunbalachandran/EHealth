@@ -25,10 +25,6 @@ conn = psycopg2.connect(user = DB_USERNAME,
 
 # c is the cursor where you run queries
 c = conn.cursor()
-c.execute('''CREATE TABLE IF NOT EXISTS login_doc (uname varchar primary key, email varchar, pwd varchar, dep varchar);''')
-c.execute('''CREATE TABLE IF NOT EXISTS login_pat (uname varchar primary key, age varchar, email varchar, pwd varchar);''')
-c.execute('''CREATE TABLE IF NOT EXISTS appointments (uname_doc varchar, uname_pat varchar, dt varchar, time varchar, FOREIGN KEY(uname_doc) REFERENCES login_doc(uname), FOREIGN KEY(uname_pat) REFERENCES login_pat(uname));''')
-conn.commit()
 
 from bottle import request, template, route, run, static_file
 
