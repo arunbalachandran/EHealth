@@ -32,6 +32,14 @@ python2 ./new_ehealth/backend.py
 ./kube/deploy/startup.sh
 ```
 
+### Startup the local backend
+```
+# start the spring boot app
+cd kube/services/backend; ./gradlew bootRun
+# start the react app
+cd kube/services/frontend; npm start
+```
+
 ## Architecture
 ### Old architecture
 ![Architecture Old](readme/architecture-current.png)
@@ -72,7 +80,7 @@ Details: 00:00:01.711952 Power up failed (vrc=VERR_INTNET_FLT_IF_NOT_FOUND, rc=E
 * Document / experiment with dhcp lease deletion
 ```
 https://github.com/kubernetes/minikube/issues/951
-C:\Users\trump\.VirtualBox\HostInterfaceNetworking-VirtualBox Host-Only Ethernet Adapter-Dhcpd.leases
+C:\Users\username\.VirtualBox\HostInterfaceNetworking-VirtualBox Host-Only Ethernet Adapter-Dhcpd.leases
 ```
 
 ## License
