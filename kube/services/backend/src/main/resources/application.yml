@@ -1,0 +1,9 @@
+spring:
+  profiles: dev
+  jpa:
+    hibernate:
+      ddl-auto: create  # will trash the DB every single time
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: "jdbc:postgresql://192.168.99.101:32432/postgres"
+    username: postgres
