@@ -44,7 +44,6 @@ def login_page():  # set this function name to any name of your choice
     password = request.forms.get('password')
     # if the emailid and password match
     # if the user trying to login is a doctor
-    # this is a very shitty way of doing things because of SQL injections but fuck it
     x = c.execute('SELECT * FROM login_doc WHERE email="%s" AND pwd = "%s"' % (emailid, password)).fetchone()
     if x:
         # apts has the list of appointments for the particular
