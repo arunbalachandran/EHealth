@@ -6,30 +6,37 @@ A demo web app that demonstrates authentication with stateful data maintained in
 ### Windows setup
 * Install 'Git Bash'
 * Install 'choco' the package manager
-* *TODO* document hack related to choco install
 * Install Virtualbox
 * Install minikube
 * Install kubectl & helm using 'choco'
+* Install helm secrets plugin
 * Setup aliases in bashrc
 
-### Starting app
-```
-# create a virtualenv
-python2 -m virtualenv venv
-# source your virtualenv
-.\venv\Scripts\activate.ps1
-# install requirements
-python2 -m pip install requirements.txt
-# run app
-export DB_USERNAME='yourdbusername'
-export DB_PASSWORD='yourdbpassword'
-python2 ./new_ehealth/backend.py
-```
-
 ### Deploy helm charts
+* Start minikube if you haven't started it already
+```bash
+minikube start
+# Verify connectivity using - your port / ip combination will wary
+telnet 192.168.99.101 8443
+```
 * Start the apps using the following command
 ```
 ./kube/deploy/startup.sh
+```
+
+### Starting app
+* Note: I'm using the integrated bash terminal that comes with VisualStudioCode, but any other bash terminal should work.
+```bash
+# create a virtualenv
+python2 -m virtualenv venv
+# source your virtualenv
+.\venv\Scripts\activate
+# install requirements
+python -m pip install requirements.txt
+# run app - replace the username / password according to your settings
+export DB_USERNAME='postgres'
+export DB_PASSWORD=''
+python ./new_ehealth/backend.py
 ```
 
 ### Startup the local backend
@@ -48,6 +55,12 @@ cd kube/services/frontend; npm start
 ![Architecture Goal](readme/architecture.png)
 
 ## Troubleshooting
+### Cannot kill python process (Windows)
+* As a workaround, find the process & kill it by PID
+```bash
+kill $(ps aux |grep winpty | awk 'NR==1{print $1}')
+```
+
 ### Virtualbox networking issue (Windows)
 * While running 'minikube start' if you see errors, like this
 ```
@@ -77,6 +90,8 @@ Details: 00:00:01.711952 Power up failed (vrc=VERR_INTNET_FLT_IF_NOT_FOUND, rc=E
 * Then, disable and enable the adapter and then 'minikube start' should work as usual
 
 ## TODO
+* Document hack related to choco install
+* Document helm secrets setup
 * Document / experiment with dhcp lease deletion
 ```
 https://github.com/kubernetes/minikube/issues/951

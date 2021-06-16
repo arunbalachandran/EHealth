@@ -4,7 +4,10 @@
 import json, psycopg2
 import os
 
-# create databases in memory itself
+# for bottle to work correctly on Windows - determine the absolute path
+abs_app_dir_path = os.path.dirname(os.path.realpath(__file__))
+abs_views_path = os.path.join(abs_app_dir_path, 'views')
+
 # no fancy checks, since we will be moving to a Spring based solution
 DB_USERNAME = os.environ.get('DB_USERNAME', '')
 DB_PASSWORD = os.environ.get('DB_PASSWORD', '')
@@ -28,6 +31,10 @@ c = conn.cursor()
 
 from bottle import request, template, route, run, static_file
 
+import bottle
+
+bottle.TEMPLATE_PATH.insert(0, abs_views_path)
+
 # refer the odd even sort program for a simple explanation of routes
 # this route tells us what to do when the user enters the index page
 @route('/index')
@@ -44,10 +51,11 @@ def login_page():  # set this function name to any name of your choice
     password = request.forms.get('password')
     # if the emailid and password match
     # if the user trying to login is a doctor
-    x = c.execute('SELECT * FROM login_doc WHERE email="%s" AND pwd = "%s"' % (emailid, password)).fetchone()
+    print('Cursor is : ' + str(c))
+    x = c.execute("SELECT * FROM login_doc WHERE email='{}' AND pwd='{}';".format(emailid, password)).fetchone()
     if x:
         # apts has the list of appointments for the particular
-        apts = c.execute('SELECT * FROM appointments WHERE uname_doc="%s"' % x[0]).fetchall()
+        apts = c.execute("SELECT * FROM appointments WHERE uname_doc='%s'" % x[0]).fetchall()
         # doc_name and doctor_appointment are the name of the
         # variable used in the doctor_app.html page
         return template(
@@ -77,7 +85,7 @@ def signup_page():
     password = request.forms.get('password')
     specialization = request.forms.get('user_job')
     mailid = request.forms.get('mailid')
-    c.execute('INSERT INTO login_doc(uname, email, pwd, dep) VALUES ("%s", "%s", "%s", "%s")' % (username, mailid, password, specialization))
+    c.execute("INSERT INTO login_doc(uname, email, pwd, dep) VALUES ('%s', '%s', '%s', '%s')" % (username, mailid, password, specialization))
     conn.commit()
 
     return template(
@@ -135,4 +143,5 @@ def appointment_page(appointee):
 # change localhost to your systems ip address, which will enable you
 # to run the app from other pc's, with your pc being the server and the
 # other pc being the client
-run(host='localhost', port=5000)
+
+run(host='localhost', port=5000, debug=True)
