@@ -3,6 +3,7 @@
 # 127.0.0.1:8080/index on your browser
 import json, psycopg2
 import os
+import requests
 
 # for bottle to work correctly on Windows - determine the absolute path
 abs_app_dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -15,6 +16,7 @@ DB_HOST = os.environ.get('DB_HOST', '192.168.99.101')
 # the DB port uses the kubernetes node port default
 DB_PORT = os.environ.get('DB_PORT', 32432)
 DB_NAME = os.environ.get('DB_NAME', 'ehealth')
+SPRING_BACKEND_ENDPOINT = os.environ.get('SPRING_BACKEND_ENDPOINT', 'http://localhost:8080')
 
 if (DB_USERNAME == '' or DB_PASSWORD == ''):
     print('Database username / password not defined. Aborting startup...')
@@ -85,13 +87,25 @@ def signup_page():
     password = request.forms.get('password')
     specialization = request.forms.get('user_job')
     mailid = request.forms.get('mailid')
-    c.execute("INSERT INTO login_doc(uname, email, pwd, dep) VALUES ('%s', '%s', '%s', '%s')" % (username, mailid, password, specialization))
-    conn.commit()
 
-    return template(
-           'doctor_app',
-            doc_name = username,
-            doctor_appointment = {})
+    backend_response = requests.post(SPRING_BACKEND_ENDPOINT + '/signup_d',
+                                    data = json.dumps({
+                                        'username': username,
+                                        'password': password,
+                                        'specialization': specialization,
+                                        'mailid': mailid
+                                    }),
+                                    headers = {'Content-Type': 'application/json'})
+    if backend_response.status_code in (200, 201):
+        return template(
+               'doctor_app',
+                doc_name = username,
+                doctor_appointment = {})
+    else:
+        return '<h1>Error pulling up doctor information!</h1><b><a href="/index">Back home</a>'
+    # c.execute("INSERT INTO login_doc(uname, email, pwd, dep) VALUES ('%s', '%s', '%s', '%s')" % (username, mailid, password, specialization))
+    # conn.commit()
+
 
 @route('/signup_p')
 def signup_page():
