@@ -103,9 +103,6 @@ def signup_page():
                 doctor_appointment = {})
     else:
         return '<h1>Error pulling up doctor information!</h1><b><a href="/index">Back home</a>'
-    # c.execute("INSERT INTO login_doc(uname, email, pwd, dep) VALUES ('%s', '%s', '%s', '%s')" % (username, mailid, password, specialization))
-    # conn.commit()
-
 
 @route('/signup_p')
 def signup_page():
@@ -127,6 +124,14 @@ def signup_page():
 def appointment_page(appointee):
     temp = []
     docs = c.execute('SELECT * FROM login_doc').fetchall()
+    backend_response = requests.post(SPRING_BACKEND_ENDPOINT + '/doctor')
+    if backend_response.status_code in (200, 201):
+        return template(
+               'doctor_app',
+                doc_name = username,
+                doctor_appointment = {})
+    else:
+        return '<h1>Error pulling up doctor information!</h1><b><a href="/index">Back home</a>'
     for i in docs:
         temp1 = '_'.join(i[0].split(' '))
         temp2 = i[3]
@@ -149,13 +154,5 @@ def appointment_page(appointee):
     x = c.execute('SELECT * FROM appointments WHERE uname_pat = "%s"' % appointee).fetchall()
 
     return template('patient_app', patient_name=appointee, patient_appointment=x)
-
-# @route('/<filename>')
-# def ret_file(filename):
-#     return static_file(filename, root='')
-
-# change localhost to your systems ip address, which will enable you
-# to run the app from other pc's, with your pc being the server and the
-# other pc being the client
 
 run(host='localhost', port=5000, debug=True)

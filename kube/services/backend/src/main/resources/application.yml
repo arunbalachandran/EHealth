@@ -5,5 +5,5 @@ spring:
       ddl-auto: create  # will trash the DB every single time
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   datasource:
-    url: "jdbc:postgresql://192.168.99.101:32432/postgres"
+    url: "jdbc:postgresql://192.168.59.100:32432/postgres"
     username: postgres
