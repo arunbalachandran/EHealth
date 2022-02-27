@@ -11,7 +11,10 @@ public class Patient {
 
     @Id
     String uname;
+
     String age;
+    
     String email;
+    
     String pwd;
 }
