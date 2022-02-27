@@ -18,6 +18,8 @@ A demo web app that demonstrates authentication with stateful data maintained in
 minikube start
 # Verify connectivity using - your port / ip combination will wary
 telnet 192.168.99.101 8443
+# check the status of minikube
+minikube status
 ```
 * Start the apps using the following command
 ```
@@ -30,13 +32,14 @@ telnet 192.168.99.101 8443
 # create a virtualenv
 python2 -m virtualenv venv
 # source your virtualenv
-.\venv\Scripts\activate
-# install requirements
+source ./venv/Scripts/activate
+# install requirements if you haven't already
 python -m pip install requirements.txt
-# run app - replace the username / password according to your settings
+# run app
 export DB_USERNAME='postgres'
-export DB_PASSWORD=''
-python ./new_ehealth/backend.py
+export DB_PASSWORD='<setPwdHere>'
+export DB_HOST=$(minikube ip)
+./new_ehealth/startup.sh
 ```
 
 ### Startup the local backend
@@ -45,6 +48,15 @@ python ./new_ehealth/backend.py
 cd kube/services/backend; ./gradlew bootRun
 # start the react app
 cd kube/services/frontend; npm start
+```
+
+### Sops
+Blurb on Sops
+
+#### To view Sops secrets
+```bash
+sops /path/to/file/containing/secrets
+# it will open a new file in bash using your default text editor
 ```
 
 ## Architecture
@@ -92,6 +104,8 @@ Details: 00:00:01.711952 Power up failed (vrc=VERR_INTNET_FLT_IF_NOT_FOUND, rc=E
 ## TODO
 * Document hack related to choco install
 * Document helm secrets setup
+* Document GPG secrets setup
+* Export postman collection
 * Document / experiment with dhcp lease deletion
 ```
 https://github.com/kubernetes/minikube/issues/951

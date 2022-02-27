@@ -5,6 +5,7 @@ import com.arunbalachandran.ehealth.entity.LoginDoc;
 import com.arunbalachandran.ehealth.service.LoginDocService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,5 +35,10 @@ public class EhealthController {
         loginDoc.setEmail(signupRequest.getMailid());
         loginDocService.save(loginDoc);
         return new ResponseEntity<>("Doctor created in the system : " + signupRequest.getUsername(), HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/doctor", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> findDoctors() {
+        return new ResponseEntity<>(loginDocService.findAll(), HttpStatus.OK);
     }
 }
