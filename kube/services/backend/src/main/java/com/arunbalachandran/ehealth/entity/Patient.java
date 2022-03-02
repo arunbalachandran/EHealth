@@ -1,12 +1,14 @@
 package com.arunbalachandran.ehealth.entity;
 
-import javax.persistence.Column;
+import lombok.Data;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "login_pat")
+@Data
 public class Patient {
 
     @Id
