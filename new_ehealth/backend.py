@@ -88,7 +88,7 @@ def signup_page():
     specialization = request.forms.get('user_job')
     mailid = request.forms.get('mailid')
 
-    backend_response = requests.post(SPRING_BACKEND_ENDPOINT + '/signup_d',
+    backend_response = requests.post(SPRING_BACKEND_ENDPOINT + '/signup/doctor',
                                     data = json.dumps({
                                         'username': username,
                                         'password': password,

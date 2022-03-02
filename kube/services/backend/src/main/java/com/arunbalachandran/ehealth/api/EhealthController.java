@@ -30,7 +30,7 @@ public class EhealthController {
      * @param signupRequest
      * @return
      */
-    @RequestMapping(value = "/signup_d", method = RequestMethod.POST, consumes = "application/json")
+    @RequestMapping(value = "/signup/doctor", method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity<String> login(@RequestBody SignupRequest signupRequest) {
         // TODO: add logic to check if doctor already exists
         // TODO: add validation logic
