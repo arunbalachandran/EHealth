@@ -1,8 +1,11 @@
 package com.arunbalachandran.ehealth.api;
 
+import com.arunbalachandran.ehealth.dto.PatientSignupRequest;
 import com.arunbalachandran.ehealth.dto.SignupRequest;
 import com.arunbalachandran.ehealth.entity.LoginDoc;
+import com.arunbalachandran.ehealth.entity.Patient;
 import com.arunbalachandran.ehealth.service.LoginDocService;
+import com.arunbalachandran.ehealth.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,6 +20,9 @@ public class EhealthController {
 
     @Autowired
     LoginDocService loginDocService;
+
+    @Autowired
+    PatientService patientService;
 
     /**
      * Create a new Doctor in the system & persist to the database.
@@ -40,5 +46,17 @@ public class EhealthController {
     @RequestMapping(value = "/doctor", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> findDoctors() {
         return new ResponseEntity<>(loginDocService.findAll(), HttpStatus.OK);
+    }
+
+    /**
+     * Create a new Patient in the system & persist to the database.
+     *
+     * @param patientSignupRequest
+     * @return
+     */
+    @RequestMapping(value = "/signup/patient", method = RequestMethod.POST, consumes = "application/json")
+    public ResponseEntity<String> patientSignup(@RequestBody PatientSignupRequest patientSignupRequest) {
+        Patient createdPatient = patientService.save(patientSignupRequest);
+        return new ResponseEntity<>("Patient created in the system : " + createdPatient.getUname(), HttpStatus.CREATED);
     }
 }

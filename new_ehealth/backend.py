@@ -114,11 +114,21 @@ def signup_page():
     password = request.forms.get('password')
     age = request.forms.get('age')
     mailid = request.forms.get('mailid')
-    c.execute('INSERT INTO login_pat(uname, age, email, pwd) VALUES ("%s", "%s", "%s", "%s")' % (username, age, mailid, password))
-    return template(
-           'patient_app',
-            patient_name = username,
-            patient_appointment = {})
+    backend_response = requests.post(SPRING_BACKEND_ENDPOINT + '/signup/patient',
+                                    data = json.dumps({
+                                        'username': username,
+                                        'password': password,
+                                        'age': age,
+                                        'mailid': mailid
+                                    }),
+                                    headers = {'Content-Type': 'application/json'})
+    if backend_response.status_code in (200, 201):
+        return template(
+               'patient_app',
+                patient_name = username,
+                patient_appointment = {})
+    else:
+        return '<h1>Error pulling up patient information!</h1><b><a href="/index">Back home</a>'
 
 @route('/add_appoint/<appointee>')
 def appointment_page(appointee):
