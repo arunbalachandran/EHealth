@@ -1,4 +1,4 @@
-﻿bottle==0.12.19
+﻿bottle==0.12.20
 click==7.1.2
 Flask==1.1.2
 itsdangerous==1.1.0
