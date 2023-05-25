@@ -32,9 +32,9 @@ minikube status
 # create a virtualenv
 python2 -m virtualenv venv
 # source your virtualenv
-source ./venv/Scripts/activate
+source ./venv/bin/activate
 # install requirements if you haven't already
-python -m pip install requirements.txt
+python -m pip install -r requirements.txt
 # run app
 export DB_USERNAME='postgres'
 export DB_PASSWORD='<setPwdHere>'
