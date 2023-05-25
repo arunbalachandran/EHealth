@@ -12,9 +12,9 @@ abs_views_path = os.path.join(abs_app_dir_path, 'views')
 # no fancy checks, since we will be moving to a Spring based solution
 DB_USERNAME = os.environ.get('DB_USERNAME', '')
 DB_PASSWORD = os.environ.get('DB_PASSWORD', '')
-DB_HOST = os.environ.get('DB_HOST', '192.168.99.101')
+DB_HOST = os.environ.get('DB_HOST', 'localhost')
 # the DB port uses the kubernetes node port default
-DB_PORT = os.environ.get('DB_PORT', 32432)
+DB_PORT = os.environ.get('DB_PORT', 5432)
 DB_NAME = os.environ.get('DB_NAME', 'ehealth')
 SPRING_BACKEND_ENDPOINT = os.environ.get('SPRING_BACKEND_ENDPOINT', 'http://localhost:8080')
 

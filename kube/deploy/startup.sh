@@ -20,5 +20,6 @@ for i in "${SERVICES[@]}"; do
   if [[ -f $VARS_PATH/$i/values.yaml ]]; then
     OPTIONAL_VALUES_OVERRIDE="-f $VARS_PATH/$i/values.yaml"
   fi
-  helm secrets upgrade -i $i $SERVICES_PATH/$i $OPTIONAL_VALUES_OVERRIDE -f $VARS_PATH/$i/secrets.yaml
+  #helm secrets upgrade -i $i $SERVICES_PATH/$i $OPTIONAL_VALUES_OVERRIDE -f $VARS_PATH/$i/secrets.yaml
+  helm upgrade -i $i $SERVICES_PATH/$i $OPTIONAL_VALUES_OVERRIDE
 done
