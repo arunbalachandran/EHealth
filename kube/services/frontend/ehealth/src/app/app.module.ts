@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { routing } from './app.routes';
@@ -18,6 +20,8 @@ import { SignupPatientComponent } from './components/signup-patient/signup-patie
   imports: [
     BrowserModule,
     RouterModule,
+    FormsModule,
+    HttpClientModule,
     routing
   ],
   providers: [],

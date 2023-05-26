@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class EhealthController {
 
     @Autowired
-    LoginDocService loginDocService;
+    private LoginDocService loginDocService;
 
     @Autowired
-    PatientService patientService;
+    private PatientService patientService;
 
     /**
      * Create a new Doctor in the system & persist to the database.
