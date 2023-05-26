@@ -1,1 +1,17 @@
-<p>signup-doctor works!</p>
+<div align="center">
+  <body>
+    <form action="#" (ngSubmit)="onSubmit()">
+      <h1>Doctor Sign Up</h1>
+      Name: <input type="text" name="userid" [(ngModel)]="userid">
+      Email:<input type="email" name="mailid" [(ngModel)]="mailid">
+      Password:<input type="password" name="password" [(ngModel)]="password">
+      Specialization:
+      <select name="specialization" [(ngModel)]="specialization">
+        <option>Nephrology</option>
+        <option>Gynaecology</option>
+        <option>Orthopaedics</option>
+      </select>
+      <input style="display: block; margin-top: 25px" type="submit" value="Sign Up">
+    </form>
+  </body>
+</div>
