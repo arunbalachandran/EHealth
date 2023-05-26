@@ -12,7 +12,7 @@ import java.util.List;
 public class LoginDocServiceImpl implements LoginDocService{
 
     @Autowired
-    LoginDocRepository loginDocRepository;
+    private LoginDocRepository loginDocRepository;
 
     @Transactional
     public LoginDoc save(LoginDoc loginDoc) {
