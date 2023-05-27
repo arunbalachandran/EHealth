@@ -1,21 +1,23 @@
 package com.arunbalachandran.ehealth.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "login_doc")
 @Data
+@Table(name = "login_doc")
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class LoginDoc {
 
     @Id
-    // TODO: fixme -> remove the GenerationType
-    @GeneratedValue(strategy = GenerationType.AUTO)
     String uname;
 
     String email;

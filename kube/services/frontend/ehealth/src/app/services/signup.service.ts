@@ -9,8 +9,11 @@ const httpOptions = {
     }),
 }
 
-@Injectable({providedIn: 'root'})
+@Injectable({
+    providedIn: 'root'
+})
 export class SignupService {
+
     private apiUrl = 'http://localhost:8080';
     private doctorSignupRoute = 'signup/doctor';
 
