@@ -9,13 +9,15 @@ import { routing } from './app.routes';
 import { SignupDoctorComponent } from './components/signup-doctor/signup-doctor.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { SignupPatientComponent } from './components/signup-patient/signup-patient.component';
+import { DoctorListComponent } from './components/doctor-list/doctor-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SignupDoctorComponent,
     HomepageComponent,
-    SignupPatientComponent
+    SignupPatientComponent,
+    DoctorListComponent
   ],
   imports: [
     BrowserModule,

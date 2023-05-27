@@ -8,4 +8,6 @@ public interface LoginDocService {
     public LoginDoc save(LoginDoc loginDoc);
 
     public List<LoginDoc> findAll();
+
+    public List<LoginDoc> findByEmail(String email);
 }
