@@ -5,7 +5,6 @@ import com.arunbalachandran.ehealth.repository.LoginDocRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -14,12 +13,15 @@ public class LoginDocServiceImpl implements LoginDocService{
     @Autowired
     private LoginDocRepository loginDocRepository;
 
-    @Transactional
     public LoginDoc save(LoginDoc loginDoc) {
         return loginDocRepository.save(loginDoc);
     }
 
     public List<LoginDoc> findAll() {
         return loginDocRepository.findAll();
+    }
+
+    public List<LoginDoc> findByEmail(String email) {
+        return loginDocRepository.findByEmail(email);
     }
 }
