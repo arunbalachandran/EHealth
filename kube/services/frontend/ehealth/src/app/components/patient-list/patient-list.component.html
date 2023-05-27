@@ -5,19 +5,17 @@
     <table border="4" style="margin-top: 2em; text-align: center">
       <tr>
         <th>Name of Doctor</th>
-        <th>Date</th>
         <th>Time</th>
       </tr>
       <tr *ngFor="let appointment of appointments">
-          <td>{{ appointment.dt }}</td>
-          <td>{{ appointment.time }}</td>
-          <td>{{ appointment.uname_doc }}</td>
+          <td>{{ appointment.timeAppt }}</td>
+          <td>{{ appointment.doctorName }}</td>
       </tr>
     </table><br>
     <!-- FIXME -->
-    <form action="/add_appoint/{{patientName}}" method="get">
+    <form action="/appointments/add/{{patientName}}" method="get">
       <input type="submit" value="Add Appointments">
-      <a href="/index">Logout</a>
+      <a href="/">Logout</a>
     </form>
     <!-- FIXME -->
   </body>

@@ -1,6 +1,7 @@
 export interface PatientSignup {
-  username: string;
-  mailid: string;
+  id?: string;
+  email: string;
   password: string;
-  age: string;
+  name: string;
+  age: number;
 }

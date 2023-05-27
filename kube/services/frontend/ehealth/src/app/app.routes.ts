@@ -7,8 +7,8 @@ import { PatientListComponent } from "./components/patient-list/patient-list.com
 
 const routes: Routes = [
     { path: '', component: HomepageComponent},
-    { path: 'signup_d', component: SignupDoctorComponent},
-    { path: 'signup_p', component: SignupPatientComponent},
+    { path: 'signup/doctor', component: SignupDoctorComponent},
+    { path: 'signup/patient', component: SignupPatientComponent},
     { path: 'doctor', component: DoctorListComponent},
     { path: 'patient', component: PatientListComponent}
 ]

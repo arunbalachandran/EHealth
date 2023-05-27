@@ -3,9 +3,9 @@ spring:
     active: dev
   jpa:
     hibernate:
-      ddl-auto: create  # will trash the DB every single time
+      ddl-auto: validate
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   datasource:
-    url: "jdbc:postgresql://localhost:5432/ehealth"
+    url: "jdbc:postgresql://localhost:5432/ehealth?currentSchema=ehealth"
     username: postgres
     password: wxxfELF03U

@@ -1,7 +1,8 @@
 export interface DoctorAppointment {
-    id: string,
-    uname_doc: string,
-    uname_pat: string,
-    dt: string,
-    time: string,
+    id: string;
+    doctorId: string;
+    doctorName: string;
+    patientId: string;
+    patientName: string;
+    timeAppt: string;
 }
