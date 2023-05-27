@@ -5,4 +5,6 @@ import com.arunbalachandran.ehealth.entity.Appointment;
 
 public interface AppointmentService {
     public List<Appointment> findByUnameDoc(String unameDoc);
+    
+    public List<Appointment> findByUnamePat(String unamePat);
 }
