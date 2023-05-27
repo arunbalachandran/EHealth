@@ -15,4 +15,8 @@ public class AppointmentServiceImpl implements AppointmentService {
     public List<Appointment> findByUnameDoc(String unameDoc) {
         return appointmentRepository.findByUnameDoc(unameDoc);
     }
+
+    public List<Appointment> findByUnamePat(String unamePat) {
+        return appointmentRepository.findByUnamePat(unamePat);
+    }
 }

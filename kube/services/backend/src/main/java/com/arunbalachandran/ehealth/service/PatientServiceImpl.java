@@ -13,10 +13,13 @@ public class PatientServiceImpl implements PatientService {
     PatientRepository patientRepository;
 
     public Patient save(PatientSignupRequest patientSignupRequest) {
-        Patient patient = new Patient();
-        patient.setUname(patientSignupRequest.getUsername());
-        patient.setPwd(patientSignupRequest.getPassword());
-        patient.setAge(patientSignupRequest.getAge());
-        return patientRepository.save(patient);
+        return patientRepository.save(
+            Patient.builder()
+            .uname(patientSignupRequest.getUsername())
+            .pwd(patientSignupRequest.getPassword())
+            .email(patientSignupRequest.getMailid())
+            .age(patientSignupRequest.getAge())
+            .build()
+        );
     }
 }

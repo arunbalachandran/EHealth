@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface AppointmentRepository extends JpaRepository<Appointment, String> {
    
     public List<Appointment> findByUnameDoc(String unameDoc);
+    
+    public List<Appointment> findByUnamePat(String unamePat);
 }
