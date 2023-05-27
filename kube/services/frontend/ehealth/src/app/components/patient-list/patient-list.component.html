@@ -1,0 +1,24 @@
+<div align="center">
+  <body>
+    <h1>Welcome, {{ patientName }}</h1>
+    <h2>Your Appointments</h2>
+    <table border="4" style="margin-top: 2em; text-align: center">
+      <tr>
+        <th>Name of Doctor</th>
+        <th>Date</th>
+        <th>Time</th>
+      </tr>
+      <tr *ngFor="let appointment of appointments">
+          <td>{{ appointment.dt }}</td>
+          <td>{{ appointment.time }}</td>
+          <td>{{ appointment.uname_doc }}</td>
+      </tr>
+    </table><br>
+    <!-- FIXME -->
+    <form action="/add_appoint/{{patientName}}" method="get">
+      <input type="submit" value="Add Appointments">
+      <a href="/index">Logout</a>
+    </form>
+    <!-- FIXME -->
+  </body>
+</div>

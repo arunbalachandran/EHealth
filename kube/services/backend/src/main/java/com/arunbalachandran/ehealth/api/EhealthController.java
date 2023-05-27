@@ -1,6 +1,7 @@
 package com.arunbalachandran.ehealth.api;
 
 import com.arunbalachandran.ehealth.dto.LoginDocResponse;
+import com.arunbalachandran.ehealth.dto.PatientResponse;
 import com.arunbalachandran.ehealth.dto.PatientSignupRequest;
 import com.arunbalachandran.ehealth.dto.SignupRequest;
 import com.arunbalachandran.ehealth.entity.LoginDoc;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -44,6 +46,7 @@ public class EhealthController {
     public ResponseEntity<LoginDocResponse> login(@RequestBody SignupRequest signupRequest) {
         // TODO: add logic to check if doctor already exists
         // TODO: add validation logic
+        // TODO: move this to service
         LoginDoc loginDoc = LoginDoc.builder()
         .uname(signupRequest.getUsername())
         .pwd(signupRequest.getPassword())
@@ -62,9 +65,20 @@ public class EhealthController {
      * @param email
      * @return
      */
-    @RequestMapping(value = "/appointments", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> findAppointments(@RequestParam(name = "unameDoc", required = true) String unameDoc) {
+    @RequestMapping(value = "/appointments/doctor/{unameDoc}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> findAppointmentsForDoctor(@PathVariable String unameDoc) {
         return new ResponseEntity<>(appointmentService.findByUnameDoc(unameDoc), HttpStatus.OK);
+    }
+    
+    /**
+     * Find and return list of appointments for a doctor by emailId
+     * 
+     * @param email
+     * @return
+     */
+    @RequestMapping(value = "/appointments/patient/{unamePat}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> findAppointmentsForPatient(@PathVariable String unamePat) {
+        return new ResponseEntity<>(appointmentService.findByUnamePat(unamePat), HttpStatus.OK);
     }
 
     /**
@@ -74,8 +88,10 @@ public class EhealthController {
      * @return
      */
     @RequestMapping(value = "/signup/patient", method = RequestMethod.POST, consumes = "application/json")
-    public ResponseEntity<String> patientSignup(@RequestBody PatientSignupRequest patientSignupRequest) {
+    public ResponseEntity<PatientResponse> patientSignup(@RequestBody PatientSignupRequest patientSignupRequest) {
         Patient createdPatient = patientService.save(patientSignupRequest);
-        return new ResponseEntity<>("Patient created in the system : " + createdPatient.getUname(), HttpStatus.CREATED);
+        PatientResponse response = PatientResponse.mapToResponse(createdPatient);
+        log.info("Patient created in the system : " + createdPatient.getUname());
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }
