@@ -9,6 +9,7 @@ import { PatientAppointment } from './patientlist';
   styleUrls: ['./patient-list.component.css']
 })
 export class PatientListComponent {
+  patientId: string = "";
   patientName: string = "";
   appointments: PatientAppointment[] = [];
   
@@ -19,8 +20,9 @@ export class PatientListComponent {
     private activatedRoute: ActivatedRoute
   ) {
       console.log("Received parameters: " + JSON.stringify(activatedRoute.snapshot.queryParams));
-      this.patientName = activatedRoute.snapshot.queryParams['unamePat'];
-      appointmentService.getPatientAppointments(this.patientName).subscribe(
+      this.patientId = activatedRoute.snapshot.queryParams['id'];
+      this.patientName = activatedRoute.snapshot.queryParams['name'];
+      appointmentService.getPatientAppointments(this.patientId).subscribe(
         (appointments) => {
           this.appointments = appointments;
         }

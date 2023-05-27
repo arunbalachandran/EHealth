@@ -16,12 +16,12 @@ export class AppointmentService {
     }
    
     // TODO: fix null pointer exception when there's no empty appointments
-    getDoctorAppointments(unameDoc: string): Observable<DoctorAppointment[]> {
-        return this.http.get<DoctorAppointment[]>(`${this.apiUrl}/${this.appointmentSuffix}/doctor/${unameDoc}`);
+    getDoctorAppointments(doctorId: string): Observable<DoctorAppointment[]> {
+        return this.http.get<DoctorAppointment[]>(`${this.apiUrl}/${this.appointmentSuffix}/doctor/${doctorId}`);
     }
    
     // TODO: fix null pointer exception when there's no empty appointments
-    getPatientAppointments(unamePat: string): Observable<PatientAppointment[]> {
-        return this.http.get<PatientAppointment[]>(`${this.apiUrl}/${this.appointmentSuffix}/patient/${unamePat}`);
+    getPatientAppointments(patientId: string): Observable<PatientAppointment[]> {
+        return this.http.get<PatientAppointment[]>(`${this.apiUrl}/${this.appointmentSuffix}/patient/${patientId}`);
     }
 }
