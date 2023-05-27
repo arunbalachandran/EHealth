@@ -3,14 +3,12 @@
     <h1>{{ doctorName }}, Your Appointments</h1>
     <table border="4" style="margin-top: 2em; text-align: center; border-style: solid">
       <tr>
-        <th>Date</th>
         <th>Time</th>
         <th>Name of Patient</th>
       </tr>
       <tr *ngFor="let appointment of appointments">
-        <td>{{ appointment.dt }}</td>
-        <td>{{ appointment.time }}</td>
-        <td>{{ appointment.uname_pat }}</td>
+        <td>{{ appointment.timeAppt }}</td>
+        <td>{{ appointment.patientName }}</td>
       </tr>
     </table><br>
     <a routerLink="/">Logout</a>

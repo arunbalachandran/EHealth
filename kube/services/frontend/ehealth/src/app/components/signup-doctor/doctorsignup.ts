@@ -1,6 +1,7 @@
 export interface DoctorSignup {
-  username: string;
-  mailid: string;
+  id?: string;
+  email: string;
   password: string;
+  name: string;
   specialization: string;
 }

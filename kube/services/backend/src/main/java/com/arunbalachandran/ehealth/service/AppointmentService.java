@@ -1,10 +1,12 @@
 package com.arunbalachandran.ehealth.service;
 
 import java.util.List;
-import com.arunbalachandran.ehealth.entity.Appointment;
+import java.util.UUID;
+
+import com.arunbalachandran.ehealth.dto.AppointmentDTO;
 
 public interface AppointmentService {
-    public List<Appointment> findByUnameDoc(String unameDoc);
+    public List<AppointmentDTO> findByDoctor_Id(UUID id);
     
-    public List<Appointment> findByUnamePat(String unamePat);
+    public List<AppointmentDTO> findByPatient_Id(UUID id);
 }

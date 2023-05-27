@@ -2,10 +2,11 @@
   <body>
     <form action="#" (ngSubmit)="onSubmit()">
       <h1>Doctor Sign Up</h1>
-      Name: <input type="text" name="username" [(ngModel)]="username">
-      Email:<input type="email" name="mailid" [(ngModel)]="mailid">
+      Name: <input type="text" name="name" [(ngModel)]="name">
+      Email:<input type="email" name="email" [(ngModel)]="email">
       Password:<input type="password" name="password" [(ngModel)]="password">
       Specialization:
+      <!-- TODO: add validation around this not being optional -->
       <select name="specialization" [(ngModel)]="specialization">
         <option>Nephrology</option>
         <option>Gynaecology</option>

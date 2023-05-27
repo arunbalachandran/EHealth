@@ -16,27 +16,27 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "patient")
 @Getter
 @Setter
 @ToString
+@Table(name = "doctor")
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Patient {
+public class Doctor {
 
     @Id
     @GeneratedValue(generator = "UUID")
     @Column(updatable = false)
     private UUID id;
-    
+
     private String email;
 
     private String password;
 
     private String name;
 
-    private Integer age;
+    private String specialization;
 
     // TODO: add javax NotNull checks
     // TODO: add creation & updation timestamp for record

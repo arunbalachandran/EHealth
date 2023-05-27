@@ -9,43 +9,44 @@ import { Router } from '@angular/router';
   styleUrls: ['./signup-doctor.component.css']
 })
 export class SignupDoctorComponent {
-  username: string = "";
-  mailid: string = "";
+  email: string = "";
   password: string = "";
-  specialization: string = ""; // Need to not set the default
+  name: string = "";
+  specialization: string = "";
 
   constructor(
     private signupService: SignupService,
     private router: Router
-    ) {
+  ) {
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   onSubmit() {
     // you can add some pre post validation here...
     const doctorSignupData = {
-      username: this.username,
-      mailid: this.mailid,
+      email: this.email,
       password: this.password,
+      name: this.name,
       specialization: this.specialization
     }
 
-    this.signupService.doctorSignupPost(doctorSignupData).subscribe(
-      (data) => {
+    this.signupService.doctorSignupPost(doctorSignupData).subscribe({
+      next: (data) => {
         console.log("Created doctor: " + JSON.stringify(data));
         this.router.navigate(['doctor'], {
           queryParams: {
-            unameDoc: data.username
+            id: data.id,
+            name: data.name
           }
         });
       },
-      error => {
+      error: (error) => {
         console.log("Error: ", error);
       },
-      () => {
+      complete: () => {
         console.log("Finished posting data to doctorSignupPost");
       }
-    );
+    });
   }
 }

@@ -66,6 +66,9 @@ sops /path/to/file/containing/secrets
 ### Future architecture
 ![Architecture Goal](readme/architecture.png)
 
+## Schema
+![Schema](readme/schema.png)
+
 ## Troubleshooting
 ### Cannot kill python process (Windows)
 * As a workaround, find the process & kill it by PID

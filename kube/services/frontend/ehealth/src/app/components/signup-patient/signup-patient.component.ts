@@ -8,10 +8,10 @@ import { SignupService } from 'src/app/services/signup.service';
   styleUrls: ['./signup-patient.component.css']
 })
 export class SignupPatientComponent {
-  username: string = "";
-  mailid: string = "";
+  email: string = "";
   password: string = "";
-  age: string = "";
+  name: string = "";
+  age: number = 0;
 
   constructor(
     private signupService: SignupService,
@@ -24,27 +24,28 @@ export class SignupPatientComponent {
   onSubmit() {
     // you can add some pre post validation here...
     const patientSignupData = {
-      username: this.username,
-      mailid: this.mailid,
+      email: this.email,
       password: this.password,
+      name: this.name,
       age: this.age
     }
 
-    this.signupService.patientSignupPost(patientSignupData).subscribe(
-      (data) => {
+    this.signupService.patientSignupPost(patientSignupData).subscribe({
+      next: (data) => {
         console.log("Created patient: " + JSON.stringify(data));
         this.router.navigate(['patient'], {
           queryParams: {
-            unamePat: data.username
+            id: data.id,
+            name: data.name
           }
         });
       },
-      error => {
+      error: (error) => {
         console.log("Error: ", error);
       },
-      () => {
+      complete: () => {
         console.log("Finished posting data to patientSignupPost");
       }
-    );
+    });
   }
 }
