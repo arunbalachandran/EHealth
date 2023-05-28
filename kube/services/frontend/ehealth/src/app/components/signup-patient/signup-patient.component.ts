@@ -11,6 +11,7 @@ export class SignupPatientComponent {
   email: string = "";
   password: string = "";
   name: string = "";
+  // TODO: make this field empty and have the user enter in a number
   age: number = 0;
 
   constructor(
