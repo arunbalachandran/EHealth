@@ -1,0 +1,98 @@
+{
+	"info": {
+		"_postman_id": "f8aeb0c3-bfe9-469b-b688-1cf9d9cb3f93",
+		"name": "EHealth",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Doctor Signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"Test\",\r\n    \"password\": \"test\",\r\n    \"specialization\": \"Test\",\r\n    \"mailid\": \"test@example.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/signup/doctor",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"signup",
+						"doctor"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patient Signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"Test\",\r\n    \"password\": \"test123\",\r\n    \"age\": \"27\",\r\n    \"mailid\": \"test@example.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/signup/patient",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"signup",
+						"patient"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Doctors",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"emailid\": \"\",\r\n    \"password\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/index",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"index"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

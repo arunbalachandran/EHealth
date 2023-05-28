@@ -1,3 +1,1 @@
-CREATE TABLE IF NOT EXISTS login_doc (uname varchar primary key, email varchar, pwd varchar, dep varchar);
-CREATE TABLE IF NOT EXISTS login_pat (uname varchar primary key, age varchar, email varchar, pwd varchar);
-CREATE TABLE IF NOT EXISTS appointments (uname_doc varchar, uname_pat varchar, dt varchar, time varchar, FOREIGN KEY(uname_doc) REFERENCES login_doc(uname), FOREIGN KEY(uname_pat) REFERENCES login_pat(uname));
+-- noop

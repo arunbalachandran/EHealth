@@ -3,15 +3,20 @@
 # 127.0.0.1:8080/index on your browser
 import json, psycopg2
 import os
+import requests
 
-# create databases in memory itself
+# for bottle to work correctly on Windows - determine the absolute path
+abs_app_dir_path = os.path.dirname(os.path.realpath(__file__))
+abs_views_path = os.path.join(abs_app_dir_path, 'views')
+
 # no fancy checks, since we will be moving to a Spring based solution
 DB_USERNAME = os.environ.get('DB_USERNAME', '')
 DB_PASSWORD = os.environ.get('DB_PASSWORD', '')
-DB_HOST = os.environ.get('DB_HOST', '192.168.99.101')
+DB_HOST = os.environ.get('DB_HOST', 'localhost')
 # the DB port uses the kubernetes node port default
-DB_PORT = os.environ.get('DB_PORT', 32432)
+DB_PORT = os.environ.get('DB_PORT', 5432)
 DB_NAME = os.environ.get('DB_NAME', 'ehealth')
+SPRING_BACKEND_ENDPOINT = os.environ.get('SPRING_BACKEND_ENDPOINT', 'http://localhost:8080')
 
 if (DB_USERNAME == '' or DB_PASSWORD == ''):
     print('Database username / password not defined. Aborting startup...')
@@ -27,6 +32,10 @@ conn = psycopg2.connect(user = DB_USERNAME,
 c = conn.cursor()
 
 from bottle import request, template, route, run, static_file
+
+import bottle
+
+bottle.TEMPLATE_PATH.insert(0, abs_views_path)
 
 # refer the odd even sort program for a simple explanation of routes
 # this route tells us what to do when the user enters the index page
@@ -44,11 +53,11 @@ def login_page():  # set this function name to any name of your choice
     password = request.forms.get('password')
     # if the emailid and password match
     # if the user trying to login is a doctor
-    # this is a very shitty way of doing things because of SQL injections but fuck it
-    x = c.execute('SELECT * FROM login_doc WHERE email="%s" AND pwd = "%s"' % (emailid, password)).fetchone()
+    print('Cursor is : ' + str(c))
+    x = c.execute("SELECT * FROM login_doc WHERE email='{}' AND pwd='{}';".format(emailid, password)).fetchone()
     if x:
         # apts has the list of appointments for the particular
-        apts = c.execute('SELECT * FROM appointments WHERE uname_doc="%s"' % x[0]).fetchall()
+        apts = c.execute("SELECT * FROM appointments WHERE uname_doc='%s'" % x[0]).fetchall()
         # doc_name and doctor_appointment are the name of the
         # variable used in the doctor_app.html page
         return template(
@@ -78,13 +87,22 @@ def signup_page():
     password = request.forms.get('password')
     specialization = request.forms.get('user_job')
     mailid = request.forms.get('mailid')
-    c.execute('INSERT INTO login_doc(uname, email, pwd, dep) VALUES ("%s", "%s", "%s", "%s")' % (username, mailid, password, specialization))
-    conn.commit()
 
-    return template(
-           'doctor_app',
-            doc_name = username,
-            doctor_appointment = {})
+    backend_response = requests.post(SPRING_BACKEND_ENDPOINT + '/signup/doctor',
+                                    data = json.dumps({
+                                        'username': username,
+                                        'password': password,
+                                        'specialization': specialization,
+                                        'mailid': mailid
+                                    }),
+                                    headers = {'Content-Type': 'application/json'})
+    if backend_response.status_code in (200, 201):
+        return template(
+               'doctor_app',
+                doc_name = username,
+                doctor_appointment = {})
+    else:
+        return '<h1>Error pulling up doctor information!</h1><b><a href="/index">Back home</a>'
 
 @route('/signup_p')
 def signup_page():
@@ -96,16 +114,34 @@ def signup_page():
     password = request.forms.get('password')
     age = request.forms.get('age')
     mailid = request.forms.get('mailid')
-    c.execute('INSERT INTO login_pat(uname, age, email, pwd) VALUES ("%s", "%s", "%s", "%s")' % (username, age, mailid, password))
-    return template(
-           'patient_app',
-            patient_name = username,
-            patient_appointment = {})
+    backend_response = requests.post(SPRING_BACKEND_ENDPOINT + '/signup/patient',
+                                    data = json.dumps({
+                                        'username': username,
+                                        'password': password,
+                                        'age': age,
+                                        'mailid': mailid
+                                    }),
+                                    headers = {'Content-Type': 'application/json'})
+    if backend_response.status_code in (200, 201):
+        return template(
+               'patient_app',
+                patient_name = username,
+                patient_appointment = {})
+    else:
+        return '<h1>Error pulling up patient information!</h1><b><a href="/index">Back home</a>'
 
 @route('/add_appoint/<appointee>')
 def appointment_page(appointee):
     temp = []
     docs = c.execute('SELECT * FROM login_doc').fetchall()
+    backend_response = requests.post(SPRING_BACKEND_ENDPOINT + '/doctor')
+    if backend_response.status_code in (200, 201):
+        return template(
+               'doctor_app',
+                doc_name = username,
+                doctor_appointment = {})
+    else:
+        return '<h1>Error pulling up doctor information!</h1><b><a href="/index">Back home</a>'
     for i in docs:
         temp1 = '_'.join(i[0].split(' '))
         temp2 = i[3]
@@ -129,11 +165,4 @@ def appointment_page(appointee):
 
     return template('patient_app', patient_name=appointee, patient_appointment=x)
 
-# @route('/<filename>')
-# def ret_file(filename):
-#     return static_file(filename, root='')
-
-# change localhost to your systems ip address, which will enable you
-# to run the app from other pc's, with your pc being the server and the
-# other pc being the client
-run(host='localhost', port=5000)
+run(host='localhost', port=5000, debug=True)
