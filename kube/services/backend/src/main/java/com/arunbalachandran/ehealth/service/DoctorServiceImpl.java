@@ -12,18 +12,14 @@ import java.util.List;
 public class DoctorServiceImpl implements DoctorService {
 
     @Autowired
-    private DoctorRepository loginDocRepository;
+    private DoctorRepository doctorRepository;
 
     public List<Doctor> findAll() {
-        return loginDocRepository.findAll();
-    }
-
-    public List<Doctor> findByEmail(String email) {
-        return loginDocRepository.findByEmail(email);
+        return doctorRepository.findAll();
     }
 
     public Doctor save(DoctorDTO signupRequest) {
-        return loginDocRepository.save(
+        return doctorRepository.save(
                 Doctor.builder()
                         .email(signupRequest.getEmail())
                         .password(signupRequest.getPassword())

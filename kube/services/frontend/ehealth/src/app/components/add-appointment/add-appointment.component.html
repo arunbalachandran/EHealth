@@ -1,0 +1,12 @@
+<div align="center">
+  <h1>Add appointment</h1>
+  <form action="/appointments" (ngSubmit)="onSubmit()">
+    <div *ngFor="let doctor of doctors">
+      <input type="radio" name="radiobutton" value="{{ doctor.id }}" [(ngModel)]="radiobutton">
+      {{ doctor.name }} - {{ doctor.specialization }}<br>
+    </div>
+    <br>Format for date -> 2016-04-04T11:30 where T is an extra character
+    <br>Select Date<input type="datetime-local" name="datepicker" [(ngModel)]="datepicker">
+    <input type="submit" value="Add Appointment">
+  </form>
+</div>
