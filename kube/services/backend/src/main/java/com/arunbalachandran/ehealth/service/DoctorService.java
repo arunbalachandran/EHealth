@@ -9,8 +9,6 @@ public interface DoctorService {
 
     public List<Doctor> findAll();
 
-    public List<Doctor> findByEmail(String email);
-
     public Doctor save(DoctorDTO signupRequest);
     
     public Doctor createDoctor(DoctorDTO signupRequest);
