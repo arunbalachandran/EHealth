@@ -110,6 +110,7 @@ Details: 00:00:01.711952 Power up failed (vrc=VERR_INTNET_FLT_IF_NOT_FOUND, rc=E
 * Document GPG secrets setup
 * Export postman collection
 * Document / experiment with dhcp lease deletion
+* Add ExceptionHandlerAdvice
 ```
 https://github.com/kubernetes/minikube/issues/951
 C:\Users\username\.VirtualBox\HostInterfaceNetworking-VirtualBox Host-Only Ethernet Adapter-Dhcpd.leases

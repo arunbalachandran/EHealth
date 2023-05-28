@@ -1,9 +1,9 @@
 <div align="center">
   <h2>Welcome to the E-Health application</h2>
   <p>Login</p>
-  <form action="#" method="post">
-    <input type="text" name="email" placeholder="Email Id">
-    <input type="password" name="password" placeholder="Password">
+  <form action="#" (ngSubmit)="onSubmit()">
+    <input type="text" name="email" [(ngModel)]="email" placeholder="Email Id">
+    <input type="password" name="password" [(ngModel)]="password" placeholder="Password">
     <input type="submit" value="Login">
     <p>OR</p>
   </form>

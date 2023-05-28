@@ -1,16 +1,19 @@
 package com.arunbalachandran.ehealth.service;
 
-import com.arunbalachandran.ehealth.dto.DoctorDTO;
-import com.arunbalachandran.ehealth.entity.Doctor;
-
 import java.util.List;
+
+import com.arunbalachandran.ehealth.dto.DoctorDTO;
+import com.arunbalachandran.ehealth.dto.DoctorSignupDTO;
+import com.arunbalachandran.ehealth.entity.Doctor;
+import com.arunbalachandran.ehealth.entity.User;
+
 
 public interface DoctorService {
 
-    public List<Doctor> findAll();
+    public List<DoctorDTO> findAll();
 
-    public Doctor save(DoctorDTO signupRequest);
-    
-    public Doctor createDoctor(DoctorDTO signupRequest);
+    public Doctor save(User user, DoctorSignupDTO signupRequest);
+
+    public DoctorDTO createDoctor(DoctorSignupDTO signupRequest);
 
 }

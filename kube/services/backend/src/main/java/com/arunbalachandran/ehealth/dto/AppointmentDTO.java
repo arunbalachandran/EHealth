@@ -23,9 +23,9 @@ public class AppointmentDTO {
         return AppointmentDTO.builder()
                 .id(appointment.getId().toString())
                 .doctorId(appointment.getDoctor().getId().toString())
-                .doctorName(appointment.getDoctor().getName())
+                .doctorName(appointment.getDoctor().getUser().getName())
                 .patientId(appointment.getPatient().getId().toString())
-                .patientName(appointment.getPatient().getName())
+                .patientName(appointment.getPatient().getUser().getName())
                 .timeAppt(appointment.getTimeAppt())
                 .build();
     }

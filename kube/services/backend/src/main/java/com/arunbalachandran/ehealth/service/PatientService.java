@@ -1,12 +1,13 @@
 package com.arunbalachandran.ehealth.service;
 
 import com.arunbalachandran.ehealth.dto.PatientDTO;
+import com.arunbalachandran.ehealth.dto.PatientSignupDTO;
 import com.arunbalachandran.ehealth.entity.Patient;
+import com.arunbalachandran.ehealth.entity.User;
 
 public interface PatientService {
     
-    Patient save(PatientDTO patientSignupRequest);
+    public Patient save(User user, PatientSignupDTO signupRequest);
     
-    Patient createPatient(PatientDTO patientSignupRequest);
-
+    public PatientDTO createPatient(PatientSignupDTO signupRequest);
 }

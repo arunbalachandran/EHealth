@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { routing } from './app.routes';
@@ -12,6 +12,7 @@ import { SignupPatientComponent } from './components/signup-patient/signup-patie
 import { DoctorListComponent } from './components/doctor-list/doctor-list.component';
 import { PatientListComponent } from './components/patient-list/patient-list.component';
 import { AddAppointmentComponent } from './components/add-appointment/add-appointment.component';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,13 @@ import { AddAppointmentComponent } from './components/add-appointment/add-appoin
     HttpClientModule,
     routing
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

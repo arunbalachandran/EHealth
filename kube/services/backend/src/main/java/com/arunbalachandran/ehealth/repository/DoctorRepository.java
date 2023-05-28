@@ -1,6 +1,6 @@
 package com.arunbalachandran.ehealth.repository;
 
-import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,4 +10,5 @@ import com.arunbalachandran.ehealth.entity.Doctor;
 
 @Repository
 public interface DoctorRepository extends JpaRepository<Doctor, UUID> {
+    Optional<Doctor> findByUser_id(UUID id);
 }

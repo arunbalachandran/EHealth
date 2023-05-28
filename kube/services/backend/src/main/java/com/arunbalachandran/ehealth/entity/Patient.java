@@ -9,17 +9,19 @@ import lombok.ToString;
 
 import java.util.UUID;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "patient")
 @Getter
 @Setter
 @ToString
+@Table(name = "patient")
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,15 +31,12 @@ public class Patient {
     @GeneratedValue(generator = "UUID")
     @Column(updatable = false)
     private UUID id;
-    
-    private String email;
 
-    private String password;
-
-    private String name;
+    @JoinColumn(name = "user_id", nullable = false)
+    @OneToOne(optional = false)
+    private User user;
 
     private Integer age;
 
     // TODO: add javax NotNull checks
-    // TODO: add creation & updation timestamp for record
 }
