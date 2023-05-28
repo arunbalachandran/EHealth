@@ -12,11 +12,7 @@
           <td>{{ appointment.doctorName }}</td>
       </tr>
     </table><br>
-    <!-- FIXME -->
-    <form action="/appointments/add/{{patientName}}" method="get">
-      <input type="submit" value="Add Appointments">
-      <a href="/">Logout</a>
-    </form>
-    <!-- FIXME -->
+    <a [routerLink]="['/appointments/add']" [queryParams]="{patientName: patientName, patientId: patientId}">Add Appointments</a>
+    <a routerLink="/">Logout</a>
   </body>
 </div>

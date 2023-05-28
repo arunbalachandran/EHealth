@@ -9,7 +9,11 @@ import org.springframework.stereotype.Service;
 
 import com.arunbalachandran.ehealth.dto.AppointmentDTO;
 import com.arunbalachandran.ehealth.entity.Appointment;
+import com.arunbalachandran.ehealth.entity.Doctor;
+import com.arunbalachandran.ehealth.entity.Patient;
 import com.arunbalachandran.ehealth.repository.AppointmentRepository;
+import com.arunbalachandran.ehealth.repository.DoctorRepository;
+import com.arunbalachandran.ehealth.repository.PatientRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,6 +23,12 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Autowired
     private AppointmentRepository appointmentRepository;
+
+    @Autowired
+    private DoctorRepository doctorRepository;
+
+    @Autowired
+    private PatientRepository patientRepository;
 
     public List<AppointmentDTO> findByDoctor_Id(UUID id) {
         log.info("Finding doctor for id: {}", id);
@@ -30,5 +40,24 @@ public class AppointmentServiceImpl implements AppointmentService {
         log.info("Finding patient for id: {}", id);
         List<Appointment> appointments = appointmentRepository.findByPatient_Id(id);
         return appointments.stream().map(AppointmentDTO::mapToDto).collect(Collectors.toList());
+    }
+
+    // TODO: add validation
+    public AppointmentDTO createAppointment(AppointmentDTO appointmentRequest) throws Exception {
+        Doctor doctor = doctorRepository.findById(UUID.fromString(appointmentRequest.getDoctorId())).orElseThrow(
+                () -> new Exception(
+                        String.format("Could not find doctor with id: %s", appointmentRequest.getDoctorId())));
+        Patient patient = patientRepository.findById(UUID.fromString(appointmentRequest.getPatientId())).orElseThrow(
+                () -> new Exception(
+                        String.format("Could not find patient with id: %s", appointmentRequest.getPatientId())));
+
+        Appointment createdAppointment = appointmentRepository.save(
+                Appointment.builder()
+                        .doctor(doctor)
+                        .patient(patient)
+                        .timeAppt(appointmentRequest.getTimeAppt())
+                        .build());
+
+        return AppointmentDTO.mapToDto(createdAppointment);
     }
 }
