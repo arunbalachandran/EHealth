@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Doctor } from 'src/app/common/doctor';
 import { AppointmentService } from 'src/app/services/appointment.service';
 import { DoctorService } from 'src/app/services/doctor.service';
@@ -19,7 +19,8 @@ export class AddAppointmentComponent {
   constructor(
     private activatedRoute: ActivatedRoute,
     private doctorService: DoctorService,
-    private appointmentService: AppointmentService
+    private appointmentService: AppointmentService,
+    private router: Router
   ) {
     console.log("Received parameters: " + JSON.stringify(activatedRoute.snapshot.queryParams));
     this.patientName = activatedRoute.snapshot.queryParams['patientName'];
@@ -38,17 +39,30 @@ export class AddAppointmentComponent {
       timeAppt: this.datepicker
     }
 
+    // TODO: change this to be event driven
     this.appointmentService.createAppointment(appointmentData).subscribe({
       next: (data) => {
-        console.log("Created Appointment: " + JSON.stringify(data));
+        if (data.body != null && data.headers != null) {
+          console.log("Created Appointment: " + JSON.stringify(data));
         // route back to patients portal and show the list of appointments?
+          this.router.navigate(['patient'], {
+            queryParams: {
+              id: data.body.patientId,
+              name: data.body.patientName
+            }
+          });
+        } else {
+          console.log("current body: " + JSON.stringify(data));
+          console.log("current headers: " + JSON.stringify(data.headers));
+          throw new Error("Create appointment endpoint failed!");
+        }
       },
       error: (error) => {
         console.log("Error: ", error);
       },
       complete: () => {
-        console.log("Finished posting to createAppointment");
+        console.log("Finished posting data to createAppointment");
       }
-    })
+    });
   }
 }

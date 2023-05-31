@@ -9,3 +9,11 @@ spring:
     url: "jdbc:postgresql://localhost:5432/ehealth?currentSchema=ehealth"
     username: postgres
     password: wxxfELF03U
+
+  application:
+    security:
+      jwt:
+        secret-key: i/UT1k2JlfIG422i91hufU0F885VPowAf7gaqCZA48Gsob4wD0hmS4vf/bP0XV0N3v3PyjjevFR27S2EHqyb6e4eox3BagRyBC0pl1FL0uP1oqMeAUSznW2x6TsTpY0kp26lS/981uiggM0LngtAo4a4xjaiay/g1aHbY56Scw7ZB5+1iyEFfo8nOUnDaNiSE1B6cdKXkpt/GTbJzShxeAZTzB1Qo4SzKzNqcA==
+        expiration: 86400000  # a day in millis
+        refresh-token:
+          expiration: 604800000 # seven days in millis

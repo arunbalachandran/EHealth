@@ -1,14 +1,24 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { DoctorAppointment } from "../components/doctor-list/doctorlist";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 import { PatientAppointment } from "../components/patient-list/patientlist";
 import { Appointment } from "../components/add-appointment/appointment";
-
-const httpOptions = {
+import { AppointmentResponse } from "../components/add-appointment/appointmentresponse";
+        
+        
+const getHttpOptions = {
+    headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+    })
+};
+        
+const postHttpOptions = {
     headers: new HttpHeaders({
         'Content-Type': 'application/json'
-    })
+    }),
+    // withCredentials: true, // for cookies
+    observe: 'response' as 'response'
 }
 
 @Injectable({
@@ -16,7 +26,7 @@ const httpOptions = {
 })
 export class AppointmentService {
 
-    private apiUrl = 'http://localhost:8080';
+    private apiUrl = 'http://localhost:8080/api/v1/ehealth';
     private appointmentRoute = 'appointments';
 
     constructor(private http: HttpClient) {
@@ -25,17 +35,17 @@ export class AppointmentService {
     // TODO: fix null pointer exception when there's no empty appointments
     getDoctorAppointments(doctorId: string): Observable<DoctorAppointment[]> {
         const url = `${this.apiUrl}/${this.appointmentRoute}/doctor/${doctorId}`;
-        return this.http.get<DoctorAppointment[]>(url);
+        return this.http.get<DoctorAppointment[]>(url, getHttpOptions);
     }
    
     // TODO: fix null pointer exception when there's no empty appointments
     getPatientAppointments(patientId: string): Observable<PatientAppointment[]> {
         const url = `${this.apiUrl}/${this.appointmentRoute}/patient/${patientId}`;
-        return this.http.get<PatientAppointment[]>(url);
+        return this.http.get<PatientAppointment[]>(url, getHttpOptions);
     }
 
-    createAppointment(appointmentRequest: Appointment) {
-        const url = `${this.apiUrl}/${this.appointmentRoute}`;
-        return this.http.post<Appointment>(url, appointmentRequest, httpOptions);
+    createAppointment(appointmentRequest: Appointment): Observable<HttpResponse<AppointmentResponse>> {
+        const url = `${this.apiUrl}/${this.appointmentRoute}/add`;
+        return this.http.post<AppointmentResponse>(url, appointmentRequest, postHttpOptions);
     }
 }

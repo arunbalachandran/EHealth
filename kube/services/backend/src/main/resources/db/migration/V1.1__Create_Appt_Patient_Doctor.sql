@@ -1,16 +1,23 @@
-create table if not exists doctor (
+-- TODO: change role to be an enum
+create table if not exists users (
     id uuid primary key,
+    name text not null,
     email text not null,
     password text not null,
-    name text not null,
-    specialization text not null
+    role varchar(255) not null,
+    created_time timestamp not null,
+    updated_time timestamp not null
+);
+
+create table if not exists doctor (
+    id uuid primary key,
+    user_id uuid not null,
+    specialization text not null 
 );
 
 create table if not exists patient (
     id uuid primary key,
-    email text not null,
-    password text not null,
-    name text not null,
+    user_id uuid not null,
     age integer not null
 );
 

@@ -14,17 +14,9 @@ import lombok.extern.jackson.Jacksonized;
 @JsonInclude(Include.NON_NULL)
 public class PatientDTO {
     String id;
+    String token;
     String email;
     String password;
     String name;
     Integer age;
-
-    public static PatientDTO mapToResponse(Patient patient) {
-        return PatientDTO.builder()
-                .id(patient.getId().toString())
-                .email(patient.getEmail())
-                .name(patient.getName())
-                .age(patient.getAge())
-                .build();
-    }
 }

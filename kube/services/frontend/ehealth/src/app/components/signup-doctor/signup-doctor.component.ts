@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { DoctorSignup } from './doctorsignup';
 import { SignupService } from 'src/app/services/signup.service';
 import { Router } from '@angular/router';
+import { AuthInterceptor } from 'src/app/interceptors/auth.interceptor';
 
 @Component({
   selector: 'app-signup-doctor',
@@ -31,15 +31,24 @@ export class SignupDoctorComponent {
       specialization: this.specialization
     }
 
+    // TODO: change this to be event driven
     this.signupService.doctorSignupPost(doctorSignupData).subscribe({
       next: (data) => {
-        console.log("Created doctor: " + JSON.stringify(data));
-        this.router.navigate(['doctor'], {
-          queryParams: {
-            id: data.id,
-            name: data.name
-          }
-        });
+        if (data.body != null && data.headers != null) {
+          console.log("Created doctor: " + JSON.stringify(data.body));
+          console.log("Doctor headers: " + JSON.stringify(data.headers.keys()));
+          AuthInterceptor.accessToken = data.headers.get('access_token')!;
+          this.router.navigate(['doctor'], {
+            queryParams: {
+              id: data.body.id,
+              name: data.body.name
+            }
+          });
+        } else {
+          console.log("current body: " + JSON.stringify(data));
+          console.log("current headers: " + JSON.stringify(data.headers));
+          throw new Error("Doctor signup endpoint failed!");
+        }
       },
       error: (error) => {
         console.log("Error: ", error);

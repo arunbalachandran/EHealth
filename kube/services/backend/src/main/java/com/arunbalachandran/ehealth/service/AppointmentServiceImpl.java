@@ -14,6 +14,7 @@ import com.arunbalachandran.ehealth.entity.Patient;
 import com.arunbalachandran.ehealth.repository.AppointmentRepository;
 import com.arunbalachandran.ehealth.repository.DoctorRepository;
 import com.arunbalachandran.ehealth.repository.PatientRepository;
+import com.arunbalachandran.ehealth.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,6 +31,9 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Autowired
     private PatientRepository patientRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     public List<AppointmentDTO> findByDoctor_Id(UUID id) {
         log.info("Finding doctor for id: {}", id);
         List<Appointment> appointments = appointmentRepository.findByDoctor_Id(id);
@@ -42,12 +46,12 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointments.stream().map(AppointmentDTO::mapToDto).collect(Collectors.toList());
     }
 
-    // TODO: add validation
+    // TODO: clean this implementation to be either user driven or patient / doctor driven
     public AppointmentDTO createAppointment(AppointmentDTO appointmentRequest) throws Exception {
         Doctor doctor = doctorRepository.findById(UUID.fromString(appointmentRequest.getDoctorId())).orElseThrow(
                 () -> new Exception(
                         String.format("Could not find doctor with id: %s", appointmentRequest.getDoctorId())));
-        Patient patient = patientRepository.findById(UUID.fromString(appointmentRequest.getPatientId())).orElseThrow(
+        Patient patient = patientRepository.findByUser_id(UUID.fromString(appointmentRequest.getPatientId())).orElseThrow(
                 () -> new Exception(
                         String.format("Could not find patient with id: %s", appointmentRequest.getPatientId())));
 
