@@ -66,8 +66,8 @@ public class JWTService {
         .setSubject(username)
         .setIssuedAt(new Date(currentTimeInMillis))
         .setExpiration(
-            // ACCESS_TOKEN (15 mins) or REFRESH_TOKEN (7 days)
-            tokenType.equals(TokenType.ACCESS_TOKEN) ? new Date(currentTimeInMillis + 1000 * 60 * 15) : new Date(currentTimeInMillis + 1000 * 60 * 60 * 24 * 7)
+            // ACCESS_TOKEN (2 mins) or REFRESH_TOKEN (7 days) (For testing - make this property driven)
+            tokenType.equals(TokenType.ACCESS_TOKEN) ? new Date(currentTimeInMillis + 1000 * 60 * 2) : new Date(currentTimeInMillis + 1000 * 60 * 60 * 24 * 7)
         )
         .signWith(getSigningKey(), SignatureAlgorithm.HS256)
         .compact();
@@ -78,7 +78,7 @@ public class JWTService {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(jwtToken));
     }
 
-    private boolean isTokenExpired(String jwtToken) {
+    public boolean isTokenExpired(String jwtToken) {
         return extractExpiration(jwtToken).before(new Date());
     }
 

@@ -7,6 +7,7 @@ import com.arunbalachandran.ehealth.dto.AuthenticationResponse;
 import com.arunbalachandran.ehealth.dto.SignupRequest;
 import com.arunbalachandran.ehealth.entity.Role;
 import com.arunbalachandran.ehealth.entity.User;
+import com.arunbalachandran.ehealth.exception.ApiException;
 
 public interface UserAuthenticationService {
 
@@ -15,4 +16,6 @@ public interface UserAuthenticationService {
     User signup(SignupRequest request, Role role);
 
     AuthenticationResponse authenticate(AuthenticationRequest request);
+    
+    AuthenticationResponse refreshToken(String refreshToken) throws ApiException;
 }

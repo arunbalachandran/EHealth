@@ -16,7 +16,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * We implement the OncePerRequestFilter since we want all the requests to the server to be checked for authentication.
@@ -25,11 +25,14 @@ import lombok.RequiredArgsConstructor;
  * See: https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/filter/GenericFilterBean.html
  */
 @Component
-@RequiredArgsConstructor
+@Slf4j
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
-    private final JWTService jwtService;
-    private final UserDetailsService userDetailsService;
+    @Autowired
+    private JWTService jwtService;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     private final String AUTHORIZATION_HEADER = "Authorization";
     private final String BEARER_TOKEN_PREFIX = "Bearer ";
@@ -37,6 +40,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
             throws ServletException, IOException {
+        log.info("Entering JWT Authentication filter...");
         final String authHeader = request.getHeader(AUTHORIZATION_HEADER);
         final String jwtToken;
         final String emailFromJWT;
