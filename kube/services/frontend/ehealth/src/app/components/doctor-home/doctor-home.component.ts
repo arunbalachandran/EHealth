@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AppointmentService } from 'src/app/services/appointment.service';
-import { DoctorAppointment } from './doctorlist';
+import { DoctorAppointment } from './doctorappointment';
 
 @Component({
   selector: 'app-doctor-list',
-  templateUrl: './doctor-list.component.html',
-  styleUrls: ['./doctor-list.component.css']
+  templateUrl: './doctor-home.component.html',
+  styleUrls: ['./doctor-home.component.css']
 })
-export class DoctorListComponent {
+export class DoctorHomeComponent {
   doctorId: string = "";
   doctorName: string = "";
   appointments: DoctorAppointment[] = [];

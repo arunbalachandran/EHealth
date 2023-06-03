@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthInterceptor } from 'src/app/interceptors/auth.interceptor';
+import { constants } from 'src/app/common/appconstants';
 import { SignupService } from 'src/app/services/signup.service';
 
 @Component({
@@ -36,12 +36,12 @@ export class SignupPatientComponent {
             'Patient headers: ' + JSON.stringify(data.headers.keys())
           );
           sessionStorage.setItem(
-            'access_token',
-            data.headers.get('access_token')!
+            constants.accessToken,
+            data.headers.get(constants.accessToken)!
           );
           sessionStorage.setItem(
-            'refresh_token',
-            data.headers.get('refresh_token')!
+            constants.refreshToken,
+            data.headers.get(constants.refreshToken)!
           );
           this.router.navigate(['patient'], {
             queryParams: {

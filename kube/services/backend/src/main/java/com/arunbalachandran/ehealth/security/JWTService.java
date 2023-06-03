@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +19,14 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JWTService {
 
-    // Generated using: https://www.allkeysgenerator.com/
-    private static final String SECRET_KEY = "67556B58703273357638792F423F4528482B4D6251655368566D597133743677";
+    @Value("${com.arunbalachandran.ehealth.security.secret-key}")
+    private String SECRET_KEY;
+    
+    @Value("${com.arunbalachandran.ehealth.security.access-token.expiration}")
+    private long accessTokenExpiry;
+
+    @Value("${com.arunbalachandran.ehealth.security.refresh-token.expiration}")
+    private long refreshTokenExpiry;
     
     private Claims extractAllClaims(String jwtToken) {
         return Jwts
@@ -66,8 +73,7 @@ public class JWTService {
         .setSubject(username)
         .setIssuedAt(new Date(currentTimeInMillis))
         .setExpiration(
-            // ACCESS_TOKEN (2 mins) or REFRESH_TOKEN (7 days) (For testing - make this property driven)
-            tokenType.equals(TokenType.ACCESS_TOKEN) ? new Date(currentTimeInMillis + 1000 * 60 * 2) : new Date(currentTimeInMillis + 1000 * 60 * 60 * 24 * 7)
+            tokenType.equals(TokenType.ACCESS_TOKEN) ? new Date(currentTimeInMillis + accessTokenExpiry) : new Date(currentTimeInMillis + refreshTokenExpiry)
         )
         .signWith(getSigningKey(), SignatureAlgorithm.HS256)
         .compact();

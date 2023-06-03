@@ -1,21 +1,23 @@
 package com.arunbalachandran.ehealth.service;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.arunbalachandran.ehealth.dto.AuthenticationRequest;
-import com.arunbalachandran.ehealth.dto.AuthenticationResponse;
 import com.arunbalachandran.ehealth.dto.SignupRequest;
+import com.arunbalachandran.ehealth.dto.UserDTO;
 import com.arunbalachandran.ehealth.entity.Role;
 import com.arunbalachandran.ehealth.entity.User;
 import com.arunbalachandran.ehealth.exception.ApiException;
 
 public interface UserAuthenticationService {
 
-    HttpHeaders generateAuthHeaders(User user);
+    HttpHeaders generateAuthHeaders(UserDetails user);
 
     User signup(SignupRequest request, Role role);
 
-    AuthenticationResponse authenticate(AuthenticationRequest request);
+    ResponseEntity<UserDTO> authenticate(AuthenticationRequest request);
     
-    AuthenticationResponse refreshToken(String refreshToken) throws ApiException;
+    HttpHeaders refreshToken(String refreshToken) throws ApiException;
 }

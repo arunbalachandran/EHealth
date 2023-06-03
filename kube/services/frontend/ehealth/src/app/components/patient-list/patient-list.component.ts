@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AppointmentService } from 'src/app/services/appointment.service';
-import { PatientAppointment } from './patientlist';
+import { PatientAppointment } from '../../common/patientlist';
 
 @Component({
   selector: 'app-patient-list',
