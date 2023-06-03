@@ -32,8 +32,17 @@ export class SignupPatientComponent {
       next: (data) => {
         if (data.body != null && data.headers != null) {
           console.log('Created patient: ' + JSON.stringify(data));
-          console.log('Patient headers: ' + JSON.stringify(data.headers.keys()));
-          AuthInterceptor.accessToken = data.headers.get('access_token')!;
+          console.log(
+            'Patient headers: ' + JSON.stringify(data.headers.keys())
+          );
+          sessionStorage.setItem(
+            'access_token',
+            data.headers.get('access_token')!
+          );
+          sessionStorage.setItem(
+            'refresh_token',
+            data.headers.get('refresh_token')!
+          );
           this.router.navigate(['patient'], {
             queryParams: {
               id: data.body.id,

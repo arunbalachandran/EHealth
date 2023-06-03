@@ -2,6 +2,7 @@ package com.arunbalachandran.ehealth.config;
 
 import java.util.Collections;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,17 +17,23 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import com.arunbalachandran.ehealth.security.CustomFilterExceptionHandler;
 import com.arunbalachandran.ehealth.security.JWTAuthenticationFilter;
 
 import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
 public class SecurityConfiguration {
 
-    private final JWTAuthenticationFilter jwtAuthenticationFilter;
-    private final AuthenticationProvider authenticationProvider;
+    @Autowired
+    private JWTAuthenticationFilter jwtAuthenticationFilter;
+
+    @Autowired
+    private CustomFilterExceptionHandler customFilterExceptionHandler;
+
+    @Autowired
+    private AuthenticationProvider authenticationProvider;
 
     @Bean
     public SecurityFilterChain securityChain(HttpSecurity httpSecurity) throws Exception {
@@ -34,13 +41,16 @@ public class SecurityConfiguration {
         httpSecurity
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(
-                        auth -> auth.requestMatchers("/api/v1/ehealth/signup/**")
+                        auth -> auth.requestMatchers(
+                                "/api/v1/ehealth/signup/**",
+                                "/api/v1/ehealth/auth/**")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(customFilterExceptionHandler, JWTAuthenticationFilter.class);
         return httpSecurity.build();
     }
 
