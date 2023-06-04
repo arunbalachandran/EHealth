@@ -19,7 +19,7 @@ export class SignupDoctorComponent {
 
   ngOnInit(): void {}
 
-  onSubmit() {
+  onSubmit(): void {
     // you can add some pre post validation here...
     const doctorSignupData = {
       email: this.email,
@@ -31,23 +31,9 @@ export class SignupDoctorComponent {
     // TODO: change this to be event driven
     this.signupService.doctorSignupPost(doctorSignupData).subscribe({
       next: (data) => {
-        if (data.body != null && data.headers != null) {
+        if (data.body != null) {
           console.log('Created doctor: ' + JSON.stringify(data.body));
-          console.log('Doctor headers: ' + JSON.stringify(data.headers.keys()));
-          sessionStorage.setItem(
-            constants.accessToken,
-            data.headers.get(constants.accessToken)!
-          );
-          sessionStorage.setItem(
-            constants.refreshToken,
-            data.headers.get(constants.refreshToken)!
-          );
-          this.router.navigate(['doctor'], {
-            queryParams: {
-              id: data.body.id,
-              name: data.body.name,
-            },
-          });
+          this.router.navigate(['/']);
         } else {
           console.log('current body: ' + JSON.stringify(data));
           console.log('current headers: ' + JSON.stringify(data.headers));

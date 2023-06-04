@@ -5,10 +5,16 @@ spring:
     hibernate:
       ddl-auto: validate
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  data:
+    redis:
+      host: localhost
+      port: 32379
+      password: password
+
   datasource:
-    url: "jdbc:postgresql://localhost:5432/ehealth?currentSchema=ehealth"
+    url: "jdbc:postgresql://localhost:32432/ehealth?currentSchema=ehealth"
     username: postgres
-    password: wxxfELF03U
+    password: password
 
 com:
   arunbalachandran:

@@ -30,28 +30,11 @@ export class SignupPatientComponent {
 
     this.signupService.patientSignupPost(patientSignupData).subscribe({
       next: (data) => {
-        if (data.body != null && data.headers != null) {
+        if (data.body != null) {
           console.log('Created patient: ' + JSON.stringify(data));
-          console.log(
-            'Patient headers: ' + JSON.stringify(data.headers.keys())
-          );
-          sessionStorage.setItem(
-            constants.accessToken,
-            data.headers.get(constants.accessToken)!
-          );
-          sessionStorage.setItem(
-            constants.refreshToken,
-            data.headers.get(constants.refreshToken)!
-          );
-          this.router.navigate(['patient'], {
-            queryParams: {
-              id: data.body.id,
-              name: data.body.name,
-            },
-          });
+          this.router.navigate(['/']);
         } else {
           console.log('current body: ' + JSON.stringify(data));
-          console.log('current headers: ' + JSON.stringify(data.headers));
           throw new Error('Patient signup endpoint failed!');
         }
       },
