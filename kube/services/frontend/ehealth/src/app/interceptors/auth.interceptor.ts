@@ -11,6 +11,7 @@ import {
 } from '@angular/common/http';
 import { Observable, catchError, finalize, switchMap, throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import { constants } from '../common/appconstants';
 
 const postHttpOptions = {
   headers: new HttpHeaders({
@@ -31,10 +32,10 @@ export class AuthInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>
   ): HttpRequest<unknown> {
     // don't add auth if calling the refresh endpoint
-    if (sessionStorage.getItem('access_token') != null && !this.refresh) {
+    if (sessionStorage.getItem(constants.accessToken) != null && !this.refresh) {
       const requestWithHeaders = request.clone({
         setHeaders: {
-          Authorization: `Bearer ${sessionStorage.getItem('access_token')}`,
+          Authorization: `Bearer ${sessionStorage.getItem(constants.accessToken)}`,
         },
       });
       return requestWithHeaders;
@@ -50,16 +51,16 @@ export class AuthInterceptor implements HttpInterceptor {
     if (!this.refresh) {
       this.refresh = true;
       return this.authService
-        .refreshToken(sessionStorage.getItem('refresh_token')!)
+        .refreshToken(sessionStorage.getItem(constants.refreshToken)!)
         .pipe(
           switchMap((response: HttpResponse<any>) => {
             sessionStorage.setItem(
-              'access_token',
-              response.headers.get('access_token')!
+              constants.accessToken,
+              response.headers.get(constants.accessToken)!
             );
             sessionStorage.setItem(
-              'refresh_token',
-              response.headers.get('refresh_token')!
+              constants.refreshToken,
+              response.headers.get(constants.refreshToken)!
             );
             // on a successful refresh, reset the refresh flag
             this.refresh = false;

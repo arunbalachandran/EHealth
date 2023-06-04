@@ -2,6 +2,8 @@ package com.arunbalachandran.ehealth.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.arunbalachandran.ehealth.dto.AuthenticationRequest;
 import com.arunbalachandran.ehealth.dto.AuthenticationResponse;
 import com.arunbalachandran.ehealth.dto.SignupRequest;
+import com.arunbalachandran.ehealth.dto.UserDTO;
 import com.arunbalachandran.ehealth.entity.Role;
 import com.arunbalachandran.ehealth.entity.User;
 import com.arunbalachandran.ehealth.exception.ApiException;
@@ -43,7 +46,7 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
      * @param user
      * @return
      */
-    public HttpHeaders generateAuthHeaders(User user) {
+    public HttpHeaders generateAuthHeaders(UserDetails user) {
         HttpHeaders responseHeaders = new HttpHeaders();
         String accessToken = jwtService.generateToken(user, TokenType.ACCESS_TOKEN);
         String refreshToken = jwtService.generateToken(user, TokenType.REFRESH_TOKEN);
@@ -72,34 +75,25 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
         return userRepository.save(user);
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public ResponseEntity<UserDTO> authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()));
         // assuming user exists & is authenticated
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow();
-        String accessToken = jwtService.generateToken(user, TokenType.ACCESS_TOKEN);
-        String refreshToken = jwtService.generateToken(user, TokenType.REFRESH_TOKEN);
-        return AuthenticationResponse.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .build();
+        HttpHeaders headers = generateAuthHeaders(user);
+        return new ResponseEntity<>(UserDTO.mapToDto(user), headers, HttpStatus.OK);
     }
 
-    public AuthenticationResponse refreshToken(String refreshToken) throws ApiException {
+    public HttpHeaders refreshToken(String refreshToken) throws ApiException {
         String emailFromJWT = jwtService.extractUsername(refreshToken);
 
         if (emailFromJWT != null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(emailFromJWT);
             if (jwtService.isTokenValid(refreshToken, userDetails)) {
-                String accessToken = jwtService.generateToken(userDetails, TokenType.ACCESS_TOKEN);
-
-                // TODO: add revocation capability to revoke existing tokens
-                return AuthenticationResponse.builder()
-                        .accessToken(accessToken)
-                        .refreshToken(refreshToken)
-                        .build();
+                // TODO: add revocation capability to revoke existing refresh tokens
+                return generateAuthHeaders(userDetails);
             }
         }
 

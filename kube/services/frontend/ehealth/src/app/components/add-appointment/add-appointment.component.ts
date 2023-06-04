@@ -44,7 +44,6 @@ export class AddAppointmentComponent {
       next: (data) => {
         if (data.body != null && data.headers != null) {
           console.log("Created Appointment: " + JSON.stringify(data));
-        // route back to patients portal and show the list of appointments?
           this.router.navigate(['patient'], {
             queryParams: {
               id: data.body.patientId,

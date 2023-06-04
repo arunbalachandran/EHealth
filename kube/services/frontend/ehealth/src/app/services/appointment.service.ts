@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { DoctorAppointment } from "../components/doctor-list/doctorlist";
+import { DoctorAppointment } from "../components/doctor-home/doctorappointment";
 import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
-import { PatientAppointment } from "../components/patient-list/patientlist";
+import { PatientAppointment } from "../common/patientlist";
 import { Appointment } from "../components/add-appointment/appointment";
 import { AppointmentResponse } from "../components/add-appointment/appointmentresponse";
         
