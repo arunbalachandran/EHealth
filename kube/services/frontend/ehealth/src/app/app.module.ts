@@ -9,7 +9,7 @@ import { routing } from './app.routes';
 import { SignupDoctorComponent } from './components/signup-doctor/signup-doctor.component';
 import { SignupPatientComponent } from './components/signup-patient/signup-patient.component';
 import { DoctorHomeComponent } from './components/doctor-home/doctor-home.component';
-import { PatientListComponent } from './components/patient-list/patient-list.component';
+import { PatientHomeComponent } from './components/patient-home/patient-home.component';
 import { AddAppointmentComponent } from './components/add-appointment/add-appointment.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { LoginComponent } from './components/login/login.component';
@@ -20,7 +20,7 @@ import { LoginComponent } from './components/login/login.component';
     SignupDoctorComponent,
     SignupPatientComponent,
     DoctorHomeComponent,
-    PatientListComponent,
+    PatientHomeComponent,
     AddAppointmentComponent,
     LoginComponent
   ],

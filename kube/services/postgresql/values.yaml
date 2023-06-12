@@ -129,7 +129,7 @@ postgresqlUsername: postgres
 ## PostgreSQL password
 ## ref: https://github.com/bitnami/bitnami-docker-postgresql/blob/master/README.md#setting-the-root-password-on-first-run
 ##
-# postgresqlPassword:
+postgresqlPassword: password
 
 ## PostgreSQL password using existing secret
 ## existingSecret: secret
@@ -247,14 +247,14 @@ ldap:
 ## PostgreSQL service configuration
 service:
   ## PosgresSQL service type
-  type: ClusterIP
+  type: NodePort
   # clusterIP: None
   port: 5432
 
   ## Specify the nodePort value for the LoadBalancer and NodePort service types.
   ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport
   ##
-  # nodePort:
+  nodePort: 32432
 
   ## Provide any additional annotations which may be required. Evaluated as a template.
   ##

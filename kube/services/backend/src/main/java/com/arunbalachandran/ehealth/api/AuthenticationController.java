@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.arunbalachandran.ehealth.dto.AuthenticationRequest;
 import com.arunbalachandran.ehealth.dto.AuthenticationResponse;
+import com.arunbalachandran.ehealth.dto.InvalidationRequest;
 import com.arunbalachandran.ehealth.dto.RefreshTokenRequest;
 import com.arunbalachandran.ehealth.dto.UserDTO;
 import com.arunbalachandran.ehealth.exception.ApiException;
+import com.arunbalachandran.ehealth.exception.BadRequestException;
 import com.arunbalachandran.ehealth.service.UserAuthenticationService;
 
 import jakarta.validation.Valid;
@@ -38,5 +40,18 @@ public class AuthenticationController {
         HttpHeaders responseHeaders = userAuthenticationService
                 .refreshToken(refreshTokenRequest.getRefreshToken());
         return new ResponseEntity<>(responseHeaders, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/logout", consumes = "application/json")
+    public ResponseEntity<AuthenticationResponse> logout(@Valid @RequestBody InvalidationRequest invalidationRequest) throws BadRequestException {
+        String accessToken = invalidationRequest.getAccessToken();
+        String refreshToken = invalidationRequest.getRefreshToken();
+        if (accessToken != null) {
+            userAuthenticationService.invalidate(accessToken);
+        }
+        if (refreshToken != null) {
+            userAuthenticationService.invalidate(refreshToken);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -11,6 +11,8 @@
         <td>{{ appointment.patientName }}</td>
       </tr>
     </table><br>
-    <a routerLink="/">Logout</a>
+    <form action="#" (ngSubmit)="onSubmit()">
+      <input type="submit" value="Logout">
+    </form>
   </body>
 </div>

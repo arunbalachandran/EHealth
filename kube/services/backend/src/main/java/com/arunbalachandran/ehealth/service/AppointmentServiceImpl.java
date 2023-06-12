@@ -14,7 +14,6 @@ import com.arunbalachandran.ehealth.entity.Patient;
 import com.arunbalachandran.ehealth.repository.AppointmentRepository;
 import com.arunbalachandran.ehealth.repository.DoctorRepository;
 import com.arunbalachandran.ehealth.repository.PatientRepository;
-import com.arunbalachandran.ehealth.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,9 +29,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Autowired
     private PatientRepository patientRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     public List<AppointmentDTO> findByDoctor_Id(UUID id) {
         log.info("Finding doctor for id: {}", id);

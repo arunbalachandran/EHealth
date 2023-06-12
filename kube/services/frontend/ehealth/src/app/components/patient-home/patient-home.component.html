@@ -13,6 +13,8 @@
       </tr>
     </table><br>
     <a [routerLink]="['/appointments/add']" [queryParams]="{patientName: patientName, patientId: patientId}">Add Appointments</a>
-    <a routerLink="/">Logout</a>
+    <form action="#" (ngSubmit)="onSubmit()">
+      <input type="submit" value="Logout">
+    </form>
   </body>
 </div>
