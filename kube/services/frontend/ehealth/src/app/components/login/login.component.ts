@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Sanitizer } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserDetails } from './userdetails';
 import { Router } from '@angular/router';
 import { constants } from 'src/app/common/appconstants';
+import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 
 const roles = {
   doctor: 'DOCTOR',
@@ -17,10 +18,17 @@ const roles = {
 export class LoginComponent {
   email: string = "";
   password: string = "";
+  bgImageUrl: string = "../../../assets/login/loginpage_bg.png";
+  bgImage!: SafeStyle;
 
   constructor(
     private router: Router,
-    private authService: AuthService) {
+    private authService: AuthService,
+    private sanitizer: DomSanitizer) {
+  }
+
+  ngOnInit() {
+    this.bgImage = this.sanitizer.bypassSecurityTrustStyle(`url(${this.bgImageUrl})`);
   }
 
   onSubmit() {

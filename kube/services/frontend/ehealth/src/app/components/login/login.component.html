@@ -1,15 +1,40 @@
-<div align="center">
-  <h2>Welcome to the E-Health application</h2>
-  <p>Login</p>
-  <form action="#" (ngSubmit)="onSubmit()">
-    <input type="text" name="email" [(ngModel)]="email" placeholder="Email Id">
-    <input type="password" name="password" [(ngModel)]="password" placeholder="Password">
-    <input type="submit" value="Login">
-    <p>OR</p>
-  </form>
-  <!-- go to the doctors signup page -->
-  <a routerLink="/signup/doctor">Doctor Sign Up</a>
+<div class="container-fluid bg">
+  <div class="row headergap">
+  </div>
+  <div class="row justify-content-center banner text-white">
+      <h2 class="text-center">Welcome to the E-Health application</h2>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-md-4">
+      <h4 class="text-center p-2 text-white">Login</h4>
+      <form action="#" class="shadow-lg p-4" (ngSubmit)="onSubmit()">
+        <!-- <div class="form-group">
+          <input class="form-control form-control-md" type="text" name="email" [(ngModel)]="email" placeholder="Email Id">
+          <input class="form-control form-control-md" type="password" name="password" [(ngModel)]="password" placeholder="Password">
+          <button class="btn btn-primary" type="button">Button</button>
+        </div> -->
+        <div class="d-grid gap-1">
+          <input class="form-control form-control-md" type="text" name="email" [(ngModel)]="email" placeholder="Email Id">
+          <input class="form-control form-control-md" type="password" name="password" [(ngModel)]="password" placeholder="Password">
+          <button class="btn btn-primary" type="button">Button</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <!-- TODO: this could be it's own page with it's own flows! -->
+    <!-- go to the doctors signup page -->
+    <div class="col-md-2 justify-content-center">
+      <p class="text-center p-2">
+        <a routerLink="/signup/doctor">Doctor Sign Up</a>
+      </p>
+    </div>
+    <div class="col-md-2 justify-content-cnter">
+      <p class="text-center p-2">
+        <a routerLink="/signup/patient">Patient Sign Up</a>
+      </p>
+    </div>
+    <!-- go to the patient signup page -->
+  </div>
   <router-outlet></router-outlet>
-  <!-- go to the patient signup page -->
-  <a routerLink="/signup/patient">Patient Sign Up</a>
 </div>
