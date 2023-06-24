@@ -1,0 +1,18 @@
+.bg {
+  background-image: url('../../../assets/login/loginpage_bg.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  align-items: enter;
+  justify-content: center;
+  height: 100vh;
+}
+
+.headergap {
+  height: 5vh;
+}
+
+.banner {
+  height: 25vh;
+}
